@@ -20,7 +20,7 @@ What does it do?
 CHUF provides the building blocks for 2D and 2.5D games. At it's heart is SFML, which
 provides all the interfacing for cross platform multimedia accessability. It can do
 anything SFML can do. This framework provides higher level abstract classes many of which
-are based on resources published by third parties, least of all the SFML Game Development
+are based on resources published by third parties, not least the SFML Game Development
 book. There is a scene node graph which provides a hierachy of composable entities - entities
 which can be built from components providing physics, AI, audio, input, particle systems and
 more. The component system is designed to be extensible so that custom components can quickly
