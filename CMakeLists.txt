@@ -11,6 +11,9 @@ set(pugi_HDRS
 set(pugi_SRCS
         src/pugixml/pugixml.cpp)
 
+
+#set(GLOB_RECURSE box2d_HDRS include/Box2D/*.h)
+
 set(box2d_HDRS
 	include/Box2D/Collision/Shapes/b2ChainShape.h
 	include/Box2D/Collision/Shapes/b2CircleShape.h
@@ -95,7 +98,7 @@ set(box2d_SRCS
         src/Box2D/Dynamics/Joints/b2MotorJoint.cpp
         src/Box2D/Dynamics/Joints/b2MouseJoint.cpp
         src/Box2D/Dynamics/Joints/b2PrismaticJoint.cpp
-        src/Box2D/Dynamics/Joints/b2PullyJoint.cpp
+        src/Box2D/Dynamics/Joints/b2PulleyJoint.cpp
         src/Box2D/Dynamics/Joints/b2RevoluteJoint.cpp
         src/Box2D/Dynamics/Joints/b2RopeJoint.cpp
         src/Box2D/Dynamics/Joints/b2WeldJoint.cpp
@@ -169,7 +172,7 @@ install(TARGETS meshlib ${PROJECT_NAME} LIBRARY DESTINATION lib)
 
 install(FILES ${box2d_HDRS} DESTINATION include/box2d)
 install(FILES ${pugi_HDRS} DESTINATION include/pugixml)
-install(FILES ${meshlib_HDRS} DESTRINATION include/meshlib)
+install(FILES ${meshlib_HDRS} DESTINATION include/meshlib)
 
 
 #set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
@@ -179,12 +182,55 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
 
-include_directories( ${OPENGL_INCLUDE_DIRS} )
-include_directories( ${GLEW_INCLUDE_DIRS} )
-include_directories( ${GLM_INCLUDE_DIRS} )
+include_directories(${OPENGL_INCLUDE_DIRS})
+include_directories(${GLEW_INCLUDE_DIRS})
+include_directories(${GLM_INCLUDE_DIRS})
 
+include_directories(${CMAKE_SOURCE_DIR}/include/Game)
 
-add_executable(CHUF src/main.cpp)
+add_executable(
+	CHUF_bin src/Main.cpp
+	src/AnimatedSprite.cpp
+	src/AudioManager.cpp
+	src/BaseParticle.cpp
+	src/BaseScreen.cpp
+	src/Behavior.cpp
+	src/CameraFactory.cpp
+	src/Canvas.cpp
+	src/Component.cpp
+	src/Console.cpp
+	src/ContactListener.cpp
+	src/DebugShape.cpp
+	src/Deletable.cpp
+	src/FontResource.cpp
+	src/GameScreen.cpp
+	src/Health.cpp
+	src/MapLayer.cpp
+	src/MapLoaderPrivate.cpp
+	src/MapLoaderPublic.cpp
+	src/MapObject.cpp
+	src/ParticleFactory.cpp
+	src/PhysEntity.cpp
+	src/QuadTreeNode.cpp
+	src/Random.cpp
+	src/SceneNode.cpp
+	src/ShaderManager.cpp
+	src/SmokeParticle.cpp
+	src/StartScreen.cpp
+	src/tmx2box2d.cpp
+	src/UIButton.cpp
+	src/UICheckbox.cpp
+	src/UICombobox.cpp
+	src/UIComponent.cpp
+	src/UIContainer.cpp
+	src/UIEventHandlers.cpp
+	src/UILabel.cpp
+	src/UIScrollSprite.cpp
+	src/UISlider.cpp
+	src/UITextbox.cpp
+	src/ViewCamera.cpp)
+	
+	
 target_link_libraries(CHUF box2d)
 target_link_libraries(CHUF pugi)
 target_link_libraries(CHUF ${SFML_LIBRARIES})
