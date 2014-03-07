@@ -32,7 +32,7 @@ using namespace Game;
 
 GameScreen::GameScreen(sf::RenderWindow& renderWindow, SharedData& sharedData)
 	: BaseScreen	(renderWindow, sharedData),
-	m_rootNode		(sharedData.AudioManager)
+	m_rootNode		(sharedData.audioManager)
 {
 
 }
@@ -61,7 +61,7 @@ void GameScreen::m_Render()
 {
 	m_renderWindow.clear(sf::Color(100u, 149u, 237u));
 	//draw game items here
-	m_renderWindow.draw(m_sharedData.Console);
+	m_renderWindow.draw(m_sharedData.console);
 	m_DrawFps();
 	m_renderWindow.display();
 
@@ -69,8 +69,8 @@ void GameScreen::m_Render()
 
 void GameScreen::m_HandleCustomEvent()
 {
-	if (m_sharedData.Console.HandleEvent(m_event)) return;
-	
+	if (m_sharedData.console.HandleEvent(m_event)) return;
+
 	if(m_event.type == sf::Event::KeyPressed
 		&& m_hasFocus)
 	{
@@ -84,8 +84,8 @@ void GameScreen::m_HandleCustomEvent()
 
 void GameScreen::m_HandleRealtimeEvent()
 {
-	if (m_sharedData.Console.Visible()) return;
-	m_sharedData.Console.HandleRealtimeEvent();
+	if (m_sharedData.console.Visible()) return;
+	m_sharedData.console.HandleRealtimeEvent();
 }
 
 void GameScreen::m_OnStart()
@@ -100,7 +100,7 @@ void GameScreen::m_OnFinish()
 
 void GameScreen::m_LoadConsoleCommands()
 {
-	Console& console = m_sharedData.Console;
+	Console& console = m_sharedData.console;
 	Console::CommandData cd;
 	std::string commandName = "quit";
 	cd.action = [this](Console::CommandList l)->std::string
@@ -127,6 +127,6 @@ void GameScreen::m_LoadConsoleCommands()
 	m_commandList.push_back(commandName);
 
 
-	m_sharedData.Console.Exec("bind escape main_menu");
-	m_sharedData.Console.Exec("bind backspace quit");
+	m_sharedData.console.Exec("bind escape main_menu");
+	m_sharedData.console.Exec("bind backspace quit");
 }

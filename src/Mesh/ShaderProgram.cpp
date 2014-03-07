@@ -509,7 +509,7 @@ namespace ml
 		ensureGlContext();
 
 		// Make sure that GLEW is initialized
-		sf::priv::ensureGlewInit();
+		//sf::priv::ensureGlewInit();
 
 		return GLEW_ARB_shading_language_100 &&
 			   GLEW_ARB_shader_objects &&
@@ -698,4 +698,4 @@ namespace ml
 			return location;
 		}
 	}
-} 
+}

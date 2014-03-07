@@ -39,7 +39,7 @@ BaseScreen::BaseScreen(sf::RenderWindow& renderWindow, SharedData& sharedData)
 	m_threadRunning			(false),
 	m_loadingThread			(&BaseScreen::m_UpdateLoadingWindow, this)
 {
-	m_font = m_sharedData.Fonts.Get("");
+	m_font = m_sharedData.fonts.Get("");
 
 	//TODO load an image into thread texture
 }
@@ -96,7 +96,7 @@ int BaseScreen::Run()
 		while(frameTime > 0.f && maxSteps > 0)
 		{
 			m_HandleRealtimeEvent();
-			
+
 			float dt = std::min(frameTime, fixedStep);
 			m_Update(dt);
 			frameTime -= dt;
@@ -143,7 +143,7 @@ void BaseScreen::m_SaveScreenShot()
 void BaseScreen::m_UnloadConsoleCommands()
 {
 	for (auto& s : m_commandList)
-		m_sharedData.Console.RemoveItem(s);
+		m_sharedData.console.RemoveItem(s);
 
 	m_commandList.clear();
 }

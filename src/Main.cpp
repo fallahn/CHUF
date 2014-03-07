@@ -31,12 +31,10 @@ source distribution.
 #include <Game/GameScreen.h>
 #include <fstream>
 
-#include <Game/TestScreen.h>
-
 int main()
-{	
+{
 	//init glew for 3d
-	glewInit();	
+	glewInit();
 
 	//load settings - TODO make exception safe
 	VideoSettings settings("config.cfg");
@@ -59,8 +57,8 @@ int main()
 
 	//create object to hold data shared between screens
 	Game::SharedData sharedData;
-	sharedData.AudioManager.SetGlobalEffectsVolume(settings.getSfxVolume());
-	sharedData.AudioManager.SetGlobalMusicVolume(settings.getMusicVolume());
+	sharedData.audioManager.SetGlobalEffectsVolume(settings.getSfxVolume());
+	sharedData.audioManager.SetGlobalMusicVolume(settings.getMusicVolume());
 
 	//create game screens and enter main loop
 	std::vector< std::unique_ptr<Game::BaseScreen> > screens;

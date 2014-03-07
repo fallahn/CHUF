@@ -179,7 +179,7 @@ bool MD5Parser::LoadAnimation(const std::string& path, SkeletalAnimation& destin
 
 SkeletonPtr MD5Parser::m_BuildFrame(const JointInfoList& ji, const BaseFrameList& bf, const FrameData& frame)
 {
-	SkeletonPtr skeleton = std::make_unique<Skeleton>();
+	SkeletonPtr skeleton(new Skeleton);// = std::make_unique<Skeleton>(); //not supported by gcc
 	auto s = ji.size();
 	for (auto i = 0u; i < s; ++i)
 	{

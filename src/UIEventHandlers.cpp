@@ -79,9 +79,9 @@ void StartScreen::m_HandleApplySettings()
 	settings.setVsync(m_optionsVSync->Checked());
 
 	//apply audio settings
-	m_sharedData.AudioManager.SetGlobalMusicVolume(m_optionsMusicVolume->GetValue());
+	m_sharedData.audioManager.SetGlobalMusicVolume(m_optionsMusicVolume->GetValue());
 	settings.setMusicVolume(m_optionsMusicVolume->GetValue());
 
-	m_sharedData.AudioManager.SetGlobalEffectsVolume(m_optionsEffectsVolume->GetValue());
+	m_sharedData.audioManager.SetGlobalEffectsVolume(m_optionsEffectsVolume->GetValue());
 	settings.setSfxVolume(m_optionsEffectsVolume->GetValue());
 }

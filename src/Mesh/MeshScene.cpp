@@ -69,19 +69,20 @@ namespace
 
 //ctor
 MeshScene::MeshScene(const sf::RenderWindow& rw, Game::ShaderResource& shaderResource)
-	:	m_camera		(std::make_unique<Camera>()),
+	:
+	m_renderWindow		(rw),
+	m_shaderResource	(shaderResource),
+	m_shadowShader		(shaderResource.Get(ml::MeshShader::Shadow)),
+	m_blendShader		(shaderResource.Get(Game::SfmlShader::ShadowBlend)),
+	m_sceneScale		(0.01f),
+	m_camera	    	(new Camera),//std::make_unique<Camera>()),
 	m_directionalLight	(std::make_shared<Light>()),
 	m_useDirectionalLight(true),
-	m_shaderResource	(shaderResource),
-	m_renderWindow		(rw),
 	m_cameraZ			(0.f),
-	m_sceneScale		(0.01f),
 	m_biasMatrix		(0.5, 0.0, 0.0, 0.0,
 						0.0, 0.5, 0.0, 0.0,
 						0.0, 0.0, 0.5, 0.0,
 						0.5, 0.5, 0.5, 1.0),
-	m_shadowShader		(shaderResource.Get(ml::MeshShader::Shadow)),
-	m_blendShader		(shaderResource.Get(Game::SfmlShader::ShadowBlend)),
 	m_depthTextureId	(0),
 	m_depthBufferId		(0)
 {
@@ -167,7 +168,7 @@ void MeshScene::SetView(const sf::View& view)
 }
 
 void MeshScene::UpdateScene(float dt, const Game::ViewCamera::Cameras& viewCams)
-{	
+{
 	Update(dt); //updates self and all children
 
 	//update depth texture
@@ -203,7 +204,7 @@ void MeshScene::UpdateScene(float dt, const Game::ViewCamera::Cameras& viewCams)
 	glDisable(GL_POLYGON_OFFSET_FILL);
 	glFlush();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
+
 	//---------------------------//
 	//update shadow texture
 
@@ -252,7 +253,7 @@ void MeshScene::UpdateScene(float dt, const Game::ViewCamera::Cameras& viewCams)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBlendEquation(GL_FUNC_ADD);
-	
+
 	for (const auto& p : viewMatrices)
 	{
 		SetView(p.first);
@@ -274,10 +275,10 @@ void MeshScene::UpdateScene(float dt, const Game::ViewCamera::Cameras& viewCams)
 }
 
 void MeshScene::Resize()
-{	
+{
 	//clear out any existing buffers before recreating them
 	m_DeleteBuffers();
-	
+
 	sf::Vector2u winSize = m_renderWindow.getSize();
 	m_CreateDepthBuffer(winSize.x, winSize.y);
 
@@ -291,12 +292,12 @@ void MeshScene::Resize()
 	m_colourSprite.setTexture(m_colourTexture.getTexture(), true);
 	m_colourTexture.setActive(true);
 	glViewport(0, 0, winSize.x, winSize.y);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//set camera position
 	m_camera->SetAspectRatio(static_cast<float>(winSize.x) / winSize.y);
 	const float angle = std::tan(m_camera->GetFOV() / 2.f * 0.0174532925f);
-	m_cameraZ = (static_cast<float>(m_renderWindow.getView().getSize().y) / 2.f) / angle;	
+	m_cameraZ = (static_cast<float>(m_renderWindow.getView().getSize().y) / 2.f) / angle;
 	m_cameraZ *= -m_sceneScale;
 }
 
@@ -388,7 +389,7 @@ void MeshScene::LoadScene(const std::string& mapName)
 
 	//			//get texture info
 	//			pugi::xml_node texNode = defNode.child("map");
-	//			if(texNode.attribute("diffuse")) 
+	//			if(texNode.attribute("diffuse"))
 	//				staticMesh->SetDiffuseTexture(m_textureResource.Get(texturePath + mapName + "/" + texNode.attribute("diffuse").as_string()));
 
 	//			//parse shader types - TODO set up shadow casting
@@ -401,7 +402,7 @@ void MeshScene::LoadScene(const std::string& mapName)
 	//			{
 	//				assert(texNode.attribute("normal"));
 	//				assert(texNode.attribute("mask"));
-	//				
+	//
 	//				ShaderProgram& shader = m_shaderResource.Get(MeshShader::Normal);
 	//				shader.setParameter("reflectMap", m_textureResource.Get(reflectMapPath));
 	//				staticMesh->SetShader(shader, MeshShader::Normal);
@@ -457,7 +458,7 @@ void MeshScene::LoadScene(const std::string& mapName)
 	//		assert(lightNode.attribute("x"));
 	//		assert(lightNode.attribute("y"));
 	//		assert(lightNode.attribute("z"));
-	//		
+	//
 	//		glm::vec3 lightPos(lightNode.attribute("x").as_float(),
 	//							lightNode.attribute("y").as_float(),
 	//							lightNode.attribute("z").as_float());
@@ -539,7 +540,7 @@ void MeshScene::draw(sf::RenderTarget& rt, sf::RenderStates states) const
 
 	//debug
 	//rt.draw(m_shadowSprite);
-	
+
 	/*rt.pushGLStates();
 	drawShadowMap(static_cast<sf::Vector2f>(rt.getSize()));
 	rt.popGLStates();*/

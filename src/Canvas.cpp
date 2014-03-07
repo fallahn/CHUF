@@ -1,12 +1,15 @@
 ///source for canvas class///
 #include <Game/Canvas.h>
+
+#include <SFML/Window/Mouse.hpp>
+
 #include <iostream>
 #include <Helpers.h>
 #include <assert.h>
 
 using namespace Game;
 
-const char* shader = 
+const char* shader =
 	"#version 120\n"
 	"uniform sampler2D tex;"
 

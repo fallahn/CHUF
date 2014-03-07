@@ -26,8 +26,8 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-///there are two types of shader program available - the default sfml shader and a 
-///specialisation for the 3D MeshLib. Shader resources are seperated out from other resources as 
+///there are two types of shader program available - the default sfml shader and a
+///specialisation for the 3D MeshLib. Shader resources are seperated out from other resources as
 ///they are loaded from memory streams rather than disk.
 
 #ifndef SHADER_MANAGER_H_
@@ -43,7 +43,6 @@ source distribution.
 //sfml shaders
 #include <Game/Shaders/Convolution.h>
 #include <Game/Shaders/Normal.h>
-#include <Game/Shaders/ScanLines.h>
 
 //mesh shaders
 #include <Mesh/Shaders/Normal.h>
@@ -66,13 +65,12 @@ namespace Game
 {
 	typedef std::unique_ptr<sf::Shader> sfPtr;
 	typedef std::unique_ptr<ml::ShaderProgram> mlPtr;
-	
+
 	enum class SfmlShader
 	{
 	//include the header for the relevant shader file then add an entry here
 		Convolution,
 		NormalMap,
-		ScanLines,
 		Ghost,
 		ShadowBlend
 	};

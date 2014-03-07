@@ -36,20 +36,14 @@ sf::Shader& ShaderResource::Get(SfmlShader shaderType)
 	if (s != m_sfmlShaders.end())
 		return *s->second;
 
-	sfPtr shaderPtr = std::make_unique<sf::Shader>();
+	sfPtr shaderPtr(new sf::Shader);// = std::make_unique<sf::Shader>(); //not supported by gcc
 	switch (shaderType)
 	{
 	case SfmlShader::Convolution:
 		shaderPtr->loadFromMemory(convolution, sf::Shader::Fragment);
 		break;
-	case SfmlShader::Ghost:
-		shaderPtr->loadFromMemory(ghost, sf::Shader::Fragment);
-		break;
 	case SfmlShader::NormalMap:
 		shaderPtr->loadFromMemory(NormalMap, sf::Shader::Fragment);
-		break;
-	case SfmlShader::ScanLines:
-		shaderPtr->loadFromMemory(scanlines, sf::Shader::Fragment);
 		break;
 	case SfmlShader::ShadowBlend:
 		shaderPtr->loadFromMemory(shadowBlend, sf::Shader::Fragment);
@@ -66,7 +60,7 @@ ml::ShaderProgram& ShaderResource::Get(ml::MeshShader shaderType)
 	if (s != m_meshShaders.end())
 		return *s->second;
 
-	mlPtr shaderPtr = std::make_unique<ml::ShaderProgram>();
+	mlPtr shaderPtr(new ml::ShaderProgram);// = std::make_unique<ml::ShaderProgram>(); //not support by gcc
 	switch (shaderType)
 	{
 	case ml::MeshShader::Normal:

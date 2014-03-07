@@ -27,7 +27,7 @@ source distribution.
 *********************************************************************/
 
 #include <Game/UIButton.h>
-#include <helpers.h>
+#include <Helpers.h>
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -47,7 +47,7 @@ UIButton::UIButton(const sf::Font& font, const sf::Texture& texture)
 	m_subrects[State::ButtonSelected] = subrect;
 	subrect.top += subrect.height;
 	m_subrects[State::ButtonActive] = subrect;
-	
+
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(m_subrects[State::ButtonNormal]);
 	setOrigin(GetSize() / 2.f);
@@ -58,7 +58,7 @@ UIButton::UIButton(const sf::Font& font, const sf::Texture& texture)
 
 //public
 void UIButton::SetCallback(Callback callback)
-{	
+{
 	m_callback = std::move(callback);
 }
 

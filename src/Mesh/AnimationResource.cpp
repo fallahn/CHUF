@@ -34,6 +34,7 @@ source distribution.
 
 #include <cassert>
 #include <iostream>
+#include <memory>
 
 using namespace ml;
 
@@ -47,7 +48,7 @@ SkeletalAnimation& AnimationResource::Get(const std::string& path, ml::FileType 
 	if (a != m_anims.end())
 		return *a->second;
 
-	AnimPtr animation = std::make_unique<SkeletalAnimation>();
+	AnimPtr animation(new SkeletalAnimation);// = std::make_unique<SkeletalAnimation>(); //gcc doesn't support this
 	switch (type)
 	{
 	case ml::FileType::MD5:

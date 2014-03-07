@@ -94,7 +94,7 @@ void SkeletalAnimation::AddFrame(SkeletonPtr frame)
 	if (m_animatedFrame == nullptr)
 	{
 		auto s = frame->joints.size();
-		m_animatedFrame = std::make_unique<Skeleton>();
+		m_animatedFrame = std::unique_ptr<Skeleton>(new Skeleton());// = std::make_unique<Skeleton>(); //not supported by gcc
 		m_animatedFrame->joints.assign(s, SkeletonJoint());
 	}
 	m_frames.push_back(std::move(frame));
@@ -154,7 +154,7 @@ void SkeletalAnimation::m_Interpolate(const Skeleton& startFrame, const Skeleton
 		auto& jFinal = m_animatedFrame->joints[i];
 		const auto& jStart = startFrame.joints[i];
 		const auto& jEnd = endFrame.joints[i];
-		
+
 		jFinal.parent = jStart.parent;
 
 		jFinal.position = glm::lerp(jStart.position, jEnd.position, percent);
@@ -164,7 +164,7 @@ void SkeletalAnimation::m_Interpolate(const Skeleton& startFrame, const Skeleton
 
 glm::quat SkeletalAnimation::m_Slerp(const glm::quat& start, const glm::quat& end, float percent)
 {
-	//check for out-of range parameter and return end points if so 
+	//check for out-of range parameter and return end points if so
 	if (percent <= 0.0)
 		return start;
 	else if (percent >= 1.0)
@@ -187,29 +187,29 @@ glm::quat SkeletalAnimation::m_Slerp(const glm::quat& start, const glm::quat& en
 	if (cosOhm > 0.999f)
 	{
 		//very close - just use linear interpolation,
-		//which will protect againt a divide by zero 
+		//which will protect againt a divide by zero
 		k0 = 1.0f - percent;
 		k1 = percent;
 	}
 	else if (cosOhm < 0.01f)
-	{	
+	{
 		k0 = percent;
 		k1 = 1.0f - percent;
 	}
 	else
 	{
 		//compute the sin of the angle using the
-		//trig identity sin^2(omega) + cos^2(omega) = 1 
+		//trig identity sin^2(omega) + cos^2(omega) = 1
 		float sinOhm = std::sqrt(1.0f - (cosOhm * cosOhm));
 
-		//compute the angle from its sin and cosine 
+		//compute the angle from its sin and cosine
 		float ohm = std::atan2(sinOhm, cosOhm);
 
 		//compute inverse of denominator, so we only have
-		//to divide once 
+		//to divide once
 		float oneOverSinOhm = 1.f / sinOhm;
 
-		//compute interpolation parameters 
+		//compute interpolation parameters
 		k0 = std::sin((1.f - percent) * ohm) * oneOverSinOhm;
 		k1 = std::sin(percent * ohm) * oneOverSinOhm;
 	}

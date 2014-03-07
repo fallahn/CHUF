@@ -40,11 +40,11 @@ namespace Game
 {
 	struct SharedData
 	{
-		TextureResource Textures;
-		FontResource Fonts;
-		AudioManager AudioManager;
-		ShaderResource Shaders;
-		Console Console;
+		TextureResource textures;
+		FontResource fonts;
+		AudioManager audioManager;
+		ShaderResource shaders;
+		Console console;
 
 		struct GameData
 		{
@@ -54,7 +54,7 @@ namespace Game
 
 		struct ScreenData
 		{
-			ScreenData() 
+			ScreenData()
 				: WindowScale	(1.f)
 			{};
 
@@ -64,8 +64,8 @@ namespace Game
 		} Screen;
 
 		SharedData()
-			: Fonts(),
-			Console(Fonts.Get("assets/fonts/VeraMono.ttf"))
+			: fonts(),
+			console(fonts.Get("assets/fonts/VeraMono.ttf"))
 		{
 
 		}

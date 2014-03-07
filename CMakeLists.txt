@@ -61,7 +61,7 @@ set(box2d_HDRS
 	include/Box2D/Dynamics/b2World.h
 	include/Box2D/Dynamics/b2WorldCallbacks.h
 	include/Box2D/Rope/b2Rope.h
-        include/Box2D/Box2d.h)
+        include/Box2D/Box2D.h)
 
 set(box2d_SRCS
 	src/Box2D/Collision/Shapes/b2ChainShape.cpp
@@ -166,9 +166,9 @@ add_library(pugi SHARED ${pugi_HDRS} ${pugi_SRCS})
 add_library(box2d SHARED ${box2d_HDRS} ${box2d_SRCS})
 add_library(meshlib SHARED ${meshlib_HDRS} ${meshlib_SRCS})
 
-install(TARGETS pugi ${PROJECT_NAME} LIBRARY DESTINATION lib)
-install(TARGETS box2d ${PROJECT_NAME} LIBRARY DESTINATION lib)
-install(TARGETS meshlib ${PROJECT_NAME} LIBRARY DESTINATION lib)
+#install(TARGETS pugi ${PROJECT_NAME} LIBRARY DESTINATION lib)
+#install(TARGETS box2d ${PROJECT_NAME} LIBRARY DESTINATION lib)
+#install(TARGETS meshlib ${PROJECT_NAME} LIBRARY DESTINATION lib)
 
 install(FILES ${box2d_HDRS} DESTINATION include/box2d)
 install(FILES ${pugi_HDRS} DESTINATION include/pugixml)
@@ -219,24 +219,23 @@ add_executable(
 	src/StartScreen.cpp
 	src/tmx2box2d.cpp
 	src/UIButton.cpp
-	src/UICheckbox.cpp
-	src/UICombobox.cpp
+	src/UICheckBox.cpp
+	src/UIComboBox.cpp
 	src/UIComponent.cpp
 	src/UIContainer.cpp
 	src/UIEventHandlers.cpp
 	src/UILabel.cpp
 	src/UIScrollSprite.cpp
 	src/UISlider.cpp
-	src/UITextbox.cpp
+	src/UITextBox.cpp
 	src/ViewCamera.cpp)
 	
 	
-target_link_libraries(CHUF box2d)
-target_link_libraries(CHUF pugi)
-target_link_libraries(CHUF ${SFML_LIBRARIES})
-target_link_libraries(CHUF ${ZLIB_LIBRARIES})
-target_link_libraries(CHUF ${OPENGL_LIBRARIES})
-target_link_libraries(CHUF ${GLEW_LIBRARIES})
-target_link_libraries(CHUF ${GLM_LIBRARIES})
+target_link_libraries(CHUF_bin box2d)
+target_link_libraries(CHUF_bin pugi)
+target_link_libraries(CHUF_bin meshlib)
+target_link_libraries(CHUF_bin ${SFML_LIBRARIES})
+target_link_libraries(CHUF_bin ${ZLIB_LIBRARIES})
+
 		
 

@@ -29,7 +29,7 @@ source distribution.
 ///source for SceneNode class///
 
 #include <Game/SceneNode.h>
-#include <box2D/Dynamics/b2Body.h>
+#include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2Fixture.h>
 #include <Mesh/MeshScene.h>
 
@@ -48,7 +48,7 @@ SceneNode::SceneNode(AudioManager& am)
 
 //dtor
 SceneNode::~SceneNode()
-{	
+{
 	//make sure we tidy up any attached components
 	for (auto& c : m_components)
 		c->Delete();
@@ -68,7 +68,7 @@ SceneNode::NodePtr SceneNode::RemoveChild(const SceneNode& child)
 	auto result = std::find_if(m_children.begin(),
 								m_children.end(),
 								[&] (NodePtr& p)->bool {return p.get() == &child;});
-	
+
 	//make sure we actually found something
 	assert(result != m_children.end());
 
@@ -230,10 +230,10 @@ void SceneNode::Delete()
 void SceneNode::AttachComponent(Component::Ptr& component)
 {
 	assert(!component->Attached());
-	
+
 	component->SetParent(*this);
 	Component::Type type = component->GetType();
-	
+
 	//remove existing components first
 	if (type != Component::Type::Particle)
 	{
@@ -255,7 +255,7 @@ void SceneNode::AttachComponent(Component::Ptr& component)
 
 	default: break;
 	}
-	
+
 	m_components.push_back(component);
 }
 
@@ -307,7 +307,7 @@ void SceneNode::m_SetPhysCategory()
 
 		auto body = pb->GetPhysBody();
 		for (auto f = body->GetFixtureList(); f; f = f->GetNext())
-		{		
+		{
 			f->SetFilterData(filter);
 		}
 	}
@@ -332,7 +332,7 @@ void SceneNode::updateSelf(float dt)
 										{
 											return p->Deleted();
 										}), m_components.end());
-	
+
 	//update node via remaining components
 	for (auto& p : m_components)
 		p->UpdateParent(dt);

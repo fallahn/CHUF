@@ -148,7 +148,7 @@ NodePtr Node::RemoveChild(const Node& child)
 	auto result = std::find_if(m_children.begin(),
 								m_children.end(),
 								[&] (NodePtr& p)->bool {return p.get() == &child;});
-	
+
 	//make sure we actually found something
 	assert(result != m_children.end());
 
@@ -170,7 +170,7 @@ void Node::ApplyLighting(Lights& lights)
 		l->CalcBrightness(m_position);
 
     std::sort(lights.begin(), lights.end(),
-		[](LightPtr& l1, LightPtr& l2)->bool { return l1->GetBrightness() > l2->GetBrightness(); }
+		[](const LightPtr& l1, const LightPtr& l2)->bool { return l1->GetBrightness() > l2->GetBrightness(); }
 	);
 
 	//clamp max number of lights
@@ -287,9 +287,9 @@ void Node::Update(float dt)
 		m_children.end(),
 		[](const NodePtr& node)->bool
 	{
-		return node->Deleted(); 
+		return node->Deleted();
 	}), m_children.end());
-	
+
 	m_UpdateSelf(dt);
 	for(auto&& c : m_children)
 		c->Update(dt);

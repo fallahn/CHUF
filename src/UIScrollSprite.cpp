@@ -28,7 +28,6 @@ source distribution.
 
 ///source for scroll sprite ui  component///
 #include <Game/UIScrollSprite.h>
-#include <Game/Shaders/ScanLines.h>
 #include <Helpers.h>
 #include <SFML/Graphics/RenderTarget.hpp>
 
@@ -56,8 +55,8 @@ UIScrollSprite::UIScrollSprite(const sf::Texture& front, const sf::Texture& back
 	m_frontSprite.setTexture(m_frontTexture);
 	m_frontSprite.setOrigin(sf::Vector2f(static_cast<sf::Vector2f>(front.getSize() / 2u)));
 
-	m_scanShader.loadFromMemory(scanlines, sf::Shader::Fragment);
-	m_ghostShader.loadFromMemory(ghost, sf::Shader::Fragment);
+//	m_scanShader.loadFromMemory(scanlines, sf::Shader::Fragment);
+//	m_ghostShader.loadFromMemory(ghost, sf::Shader::Fragment);
 }
 
 //public
@@ -81,10 +80,10 @@ void UIScrollSprite::Deselect()
 void UIScrollSprite::Activate()
 {
 	if(!Enabled()) return;
-	
+
 	//move to next enabled selection index
 	if(m_destinationIndex == m_selectedIndex)
-	{		
+	{
 		do
 			m_destinationIndex = (m_destinationIndex + 1u) % m_items.size();
 		while (!m_items[m_destinationIndex].enabled
@@ -124,7 +123,7 @@ void UIScrollSprite::Update(float dt)
 			m_items[m_destinationIndex].sprite.setColor(sf::Color::White);
 			m_selectedIndex = m_destinationIndex;
 		}
-		
+
 		//update transparency
 		const float ratio = 255 / 180.f;
 		sf::Uint8 a = static_cast<sf::Uint8>(ratio * rotation);

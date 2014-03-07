@@ -34,7 +34,7 @@ using namespace Game;
 
 namespace
 {
-	const char testShader[] = 
+	const char testShader[] =
 		"#version 120\n"
 		"uniform sampler2D tex;"
 
@@ -49,11 +49,11 @@ namespace
 StartScreen::StartScreen(sf::RenderWindow& renderWindow, SharedData& sharedData)
 	: BaseScreen		(renderWindow, sharedData),
 	m_optionsContainer	(renderWindow),
-	m_rootNode			(sharedData.AudioManager)
+	m_rootNode			(sharedData.audioManager)
 {
 	m_text.setFont(m_font);
 	m_text.setString("Press Space to Start or O for options");
-	
+
 	//calc view size based on aspect ratio
 	m_UpdateViewRatio();
 
@@ -61,7 +61,7 @@ StartScreen::StartScreen(sf::RenderWindow& renderWindow, SharedData& sharedData)
 	m_BuildOptionsMenu();
 
 	//create console vars
-	Console& console = sharedData.Console;
+	Console& console = sharedData.console;
 	Console::CommandData cd;
 	cd.action = [&renderWindow](Console::CommandList l)->std::string
 	{
@@ -85,7 +85,7 @@ StartScreen::StartScreen(sf::RenderWindow& renderWindow, SharedData& sharedData)
 	cd.commandFlags = Console::Config;
 	console.AddItem("vsync_enable", cd);
 
-	AudioManager& am = sharedData.AudioManager;
+	AudioManager& am = sharedData.audioManager;
 	cd.action = [&am](Console::CommandList l)->std::string
 	{
 		if (l.empty())
@@ -124,16 +124,16 @@ StartScreen::StartScreen(sf::RenderWindow& renderWindow, SharedData& sharedData)
 }
 
 void StartScreen::m_Update(float dt)
-{	
+{
 	//update physics world
 
 	//update ai/behaviors
-	
+
 	//update scene graph
 	while (!m_commandQueue.empty())
 		m_rootNode.OnCommand(m_commandQueue.pop(), dt);
 	m_rootNode.Update(dt);
-	
+
 	//update mesh scene graph
 
 
@@ -145,17 +145,17 @@ void StartScreen::m_Render()
 {
 	m_renderWindow.clear(sf::Color(100u, 149u, 237u));
 	m_renderWindow.draw(m_text);
-	
+
 	//draw ui on top
 	m_renderWindow.draw(m_optionsContainer);
-	m_renderWindow.draw(m_sharedData.Console);
+	m_renderWindow.draw(m_sharedData.console);
 	m_renderWindow.display();
 	m_DrawFps();
 }
 
 void StartScreen::m_HandleCustomEvent()
 {
-	if (m_sharedData.Console.HandleEvent(m_event)) return;
+	if (m_sharedData.console.HandleEvent(m_event)) return;
 	m_optionsContainer.HandleEvent(m_event);
 
 	if(m_event.type == sf::Event::KeyPressed
@@ -167,7 +167,7 @@ void StartScreen::m_HandleCustomEvent()
 
 			break;
 		case sf::Keyboard::Return:
-		
+
 			break;
 		default: break;
 		}
@@ -180,8 +180,8 @@ void StartScreen::m_HandleCustomEvent()
 
 void StartScreen::m_HandleRealtimeEvent()
 {
-	if (m_sharedData.Console.Visible())return;
-	m_sharedData.Console.HandleRealtimeEvent();
+	if (m_sharedData.console.Visible())return;
+	m_sharedData.console.HandleRealtimeEvent();
 }
 
 void StartScreen::m_OnStart()
@@ -201,7 +201,7 @@ void StartScreen::m_OnContextCreate(const sf::VideoMode& v)
 
 void StartScreen::m_LoadConsoleCommands()
 {
-	Console& console = m_sharedData.Console;
+	Console& console = m_sharedData.console;
 	std::string commandName = "quit";
 	Console::CommandData cd;
 	cd.action = [this](Console::CommandList l)->std::string
@@ -248,8 +248,8 @@ void StartScreen::m_LoadConsoleCommands()
 void StartScreen::m_BuildOptionsMenu()
 {
 	//drop down lists
-	m_optionsResolution = std::make_shared<UI::UIComboBox>(m_sharedData.Fonts.Get("assets/fonts/console.ttf"),
-												m_sharedData.Textures.Get("assets/textures/ui/resolution_dd.png"));
+	m_optionsResolution = std::make_shared<UI::UIComboBox>(m_sharedData.fonts.Get("assets/fonts/console.ttf"),
+												m_sharedData.textures.Get("assets/textures/ui/resolution_dd.png"));
 
 	const float currentRatio = m_GetVideoModeRatio(sf::VideoMode::getDesktopMode());
 	const std::vector<sf::VideoMode>& modes = sf::VideoMode::getFullscreenModes();
@@ -260,8 +260,8 @@ void StartScreen::m_BuildOptionsMenu()
 	//debug
 	m_optionsResolution->AddItem(m_VideoModeToString(sf::VideoMode(800u, 600u)), (800 << 16 | 600));
 
-	m_optionsMultisampling = std::make_shared<UI::UIComboBox>(m_sharedData.Fonts.Get("assets/fonts/console.ttf"),
-												m_sharedData.Textures.Get("assets/textures/ui/multisample_dd.png"));
+	m_optionsMultisampling = std::make_shared<UI::UIComboBox>(m_sharedData.fonts.Get("assets/fonts/console.ttf"),
+												m_sharedData.textures.Get("assets/textures/ui/multisample_dd.png"));
 	m_optionsMultisampling->AddItem("Off", 0);
 	m_optionsMultisampling->AddItem("1x", 1);
 	m_optionsMultisampling->AddItem("2x", 2);
@@ -270,34 +270,34 @@ void StartScreen::m_BuildOptionsMenu()
 
 
 	//check boxes
-	m_optionsVSync = std::make_shared<UI::UICheckBox>(m_sharedData.Fonts.Get("assets/fonts/console.ttf"),
-												m_sharedData.Textures.Get("assets/textures/ui/check.png"));
+	m_optionsVSync = std::make_shared<UI::UICheckBox>(m_sharedData.fonts.Get("assets/fonts/console.ttf"),
+												m_sharedData.textures.Get("assets/textures/ui/check.png"));
 	m_optionsVSync->SetAlignment(UI::UICheckBox::Alignment::Right);
 	m_optionsVSync->SetText("Enable VSync");
 
-	m_optionsFullScreen = std::make_shared<UI::UICheckBox>(m_sharedData.Fonts.Get("assets/fonts/console.ttf"),
-												m_sharedData.Textures.Get("assets/textures/ui/check.png"));
+	m_optionsFullScreen = std::make_shared<UI::UICheckBox>(m_sharedData.fonts.Get("assets/fonts/console.ttf"),
+												m_sharedData.textures.Get("assets/textures/ui/check.png"));
 	m_optionsFullScreen->SetAlignment(UI::UICheckBox::Alignment::Right);
 	m_optionsFullScreen->SetText("Full Screen");
 
 	//sliders
-	m_optionsMusicVolume = std::make_shared<UI::UISlider>(m_sharedData.Fonts.Get("assets/fonts/console.ttf"),
-														m_sharedData.Textures.Get("assets/textures/ui/slider_handle.png"));
+	m_optionsMusicVolume = std::make_shared<UI::UISlider>(m_sharedData.fonts.Get("assets/fonts/console.ttf"),
+														m_sharedData.textures.Get("assets/textures/ui/slider_handle.png"));
 	m_optionsMusicVolume->SetText("Music Volume:");
-	m_optionsEffectsVolume = std::make_shared<UI::UISlider>(m_sharedData.Fonts.Get("assets/fonts/console.ttf"),
-														m_sharedData.Textures.Get("assets/textures/ui/slider_handle.png"));
-	m_optionsEffectsVolume->SetText("Effects Volume:");	
-	
+	m_optionsEffectsVolume = std::make_shared<UI::UISlider>(m_sharedData.fonts.Get("assets/fonts/console.ttf"),
+														m_sharedData.textures.Get("assets/textures/ui/slider_handle.png"));
+	m_optionsEffectsVolume->SetText("Effects Volume:");
+
 	//buttons
-	m_optionsApplyButton = std::make_shared<UI::UIButton>(m_sharedData.Fonts.Get(),
-														m_sharedData.Textures.Get("assets/textures/ui/buttons/apply.png"));
+	m_optionsApplyButton = std::make_shared<UI::UIButton>(m_sharedData.fonts.Get(),
+														m_sharedData.textures.Get("assets/textures/ui/buttons/apply.png"));
 	m_optionsApplyButton->SetCallback([this]()
 	{
-		m_HandleApplySettings();		
+		m_HandleApplySettings();
 	});
 
-	m_optionsCloseButton = std::make_shared<UI::UIButton>(m_sharedData.Fonts.Get(),
-														m_sharedData.Textures.Get("assets/textures/ui/buttons/close.png"));
+	m_optionsCloseButton = std::make_shared<UI::UIButton>(m_sharedData.fonts.Get(),
+														m_sharedData.textures.Get("assets/textures/ui/buttons/close.png"));
 	m_optionsCloseButton->SetCallback([this]()
 	{
 		//m_mainMenuContainer.SetVisible();
@@ -305,8 +305,8 @@ void StartScreen::m_BuildOptionsMenu()
 	});
 
 	m_optionsContainer.AddComponent(m_optionsCloseButton);
-	m_optionsContainer.AddComponent(m_optionsApplyButton);	
-	m_optionsContainer.AddComponent(m_optionsEffectsVolume);	
+	m_optionsContainer.AddComponent(m_optionsApplyButton);
+	m_optionsContainer.AddComponent(m_optionsEffectsVolume);
 	m_optionsContainer.AddComponent(m_optionsMusicVolume);
 	m_optionsContainer.AddComponent(m_optionsFullScreen);
 	m_optionsContainer.AddComponent(m_optionsVSync);
@@ -355,7 +355,7 @@ float StartScreen::m_GetVideoModeRatio(const sf::VideoMode& mode)
 void StartScreen::m_LayoutOptionsMenu(float dt)
 {
 	sf::Vector2f c = m_renderWindow.getView().getCenter();
-	
+
 	//update position of options menu components
 	m_optionsApplyButton->setPosition(c + sf::Vector2f(-110.f, 60.f));
 	m_optionsCloseButton->setPosition(c + sf::Vector2f(110.f, 60.f));
