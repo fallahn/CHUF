@@ -59,9 +59,9 @@ void StartScreen::m_HandleApplySettings()
 		//attempt to apply new settings
 		try
 		{
-			m_renderWindow.create(newMode, "", m_optionsFullScreen->Checked() ? sf::Style::Fullscreen : sf::Style::Close, newContext);
+			m_RenderWindow().create(newMode, "", m_optionsFullScreen->Checked() ? sf::Style::Fullscreen : sf::Style::Close, newContext);
 			m_UpdateViewRatio();
-			m_renderWindow.setView(m_sharedData.Screen.DefaultView);
+			m_RenderWindow().setView(m_SharedData().Screen.DefaultView);
 
 			settings.setResolution(newMode);
 			settings.setFullScreen(m_optionsFullScreen->Checked());
@@ -71,17 +71,17 @@ void StartScreen::m_HandleApplySettings()
 		}
 		catch (...)
 		{
-			m_renderWindow.create(currentMode, "", settings.getFullcreen() ? sf::Style::Fullscreen : sf::Style::Close, currentContext);
+			m_RenderWindow().create(currentMode, "", settings.getFullcreen() ? sf::Style::Fullscreen : sf::Style::Close, currentContext);
 		}
 	}
 	//apply vsync
-	m_renderWindow.setVerticalSyncEnabled(m_optionsVSync->Checked());
+	m_RenderWindow().setVerticalSyncEnabled(m_optionsVSync->Checked());
 	settings.setVsync(m_optionsVSync->Checked());
 
 	//apply audio settings
-	m_sharedData.audioManager.SetGlobalMusicVolume(m_optionsMusicVolume->GetValue());
+	m_SharedData().audioManager.SetGlobalMusicVolume(m_optionsMusicVolume->GetValue());
 	settings.setMusicVolume(m_optionsMusicVolume->GetValue());
 
-	m_sharedData.audioManager.SetGlobalEffectsVolume(m_optionsEffectsVolume->GetValue());
+	m_SharedData().audioManager.SetGlobalEffectsVolume(m_optionsEffectsVolume->GetValue());
 	settings.setSfxVolume(m_optionsEffectsVolume->GetValue());
 }

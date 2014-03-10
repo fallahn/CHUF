@@ -45,7 +45,7 @@ BaseScreen::BaseScreen(sf::RenderWindow& renderWindow, SharedData& sharedData)
 }
 
 //***public functions***//
-int BaseScreen::Run()
+ScreenId BaseScreen::Run()
 {
 	m_renderWindow.setView(m_sharedData.Screen.DefaultView);
 
@@ -73,7 +73,7 @@ int BaseScreen::Run()
 				std::cout << "lost focus" << std::endl;
 				break;
 			case sf::Event::Closed:
-				return QUIT;
+				return ScreenId::Quit;
 			case sf::Event::KeyPressed:
 				if(!m_hasFocus) break;
 				switch(m_event.key.code)
@@ -112,6 +112,82 @@ int BaseScreen::Run()
 }
 
 //***protected functions***//
+sf::RenderWindow& BaseScreen::m_RenderWindow()
+{
+	return m_renderWindow;
+}
+
+sf::Clock& BaseScreen::m_FpsClock()
+{
+	return m_fpsClock;
+}
+
+sf::Clock& BaseScreen::m_DtClock()
+{
+	return m_dtClock;
+}
+
+SharedData& BaseScreen::m_SharedData()
+{
+	return m_sharedData;
+}
+
+float BaseScreen::m_GetTimeScale() const
+{
+	return m_timeScale;
+}
+
+void BaseScreen::m_SetTimeScale(float scale)
+{
+	assert(scale > 0.f);
+	m_timeScale = scale;
+}
+
+sf::Text& BaseScreen::m_Text()
+{
+	return m_text;
+}
+
+sf::Font& BaseScreen::m_Font()
+{
+	return m_font;
+}
+
+sf::Event& BaseScreen::m_Event()
+{
+	return m_event;
+}
+
+bool BaseScreen::m_Running() const
+{
+	return m_running;
+}
+
+void BaseScreen::m_SetRunning(bool b)
+{
+	m_running = b;
+}
+
+bool BaseScreen::m_HasFocus() const
+{
+	return m_hasFocus;
+}
+
+void BaseScreen::m_SetFocused(bool b)
+{
+	m_hasFocus = b;
+}
+
+ScreenId BaseScreen::m_ReturnValue() const
+{
+	return m_return;
+}
+
+void BaseScreen::m_SetReturnValue(ScreenId value)
+{
+	m_return = value;
+}
+
 void BaseScreen::m_DrawFps()
 {
 	float frameRate = 1.f / m_fpsClock.getElapsedTime().asSeconds();

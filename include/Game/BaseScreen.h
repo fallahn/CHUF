@@ -48,35 +48,40 @@ https://github.com/LaurentGomila/SFML/wiki/Tutorial%3A-Manage-different-Screens 
 
 #include <atomic>
 
-//menu IDs - set the return value of a screen object to one of these for the main function to switch
-//to the correct screen
-const int QUIT = -1;
-const int MAIN_MENU = 0;
-//const int OPTION_MENU = 1;
-const int GAME_SCREEN = 1;
-
 namespace Game
-{	
+{
+	enum ScreenId
+	{
+		Quit = -1,
+		MainMenu = 0,
+		Game = 1
+	};
+
 	class BaseScreen : private sf::NonCopyable
 	{
 	public:
 		BaseScreen(sf::RenderWindow& renderWindow, SharedData& sharedData);
 		//entry point for all screen classes, called from the main function
 		virtual ~BaseScreen(){};
-		virtual int Run();
+		virtual ScreenId Run();
 
 	protected:
-		sf::RenderWindow& m_renderWindow;
-		sf::Clock m_fpsClock, m_dtClock;
-		//global data struct
-		SharedData& m_sharedData;
 
-		float m_timeScale; //used to speed up and slow down rate of game
-		sf::Text m_text;
-		sf::Font m_font;
-		sf::Event m_event;
-		bool m_running, m_hasFocus;
-		int m_return;
+		sf::RenderWindow& m_RenderWindow();
+		sf::Clock& m_FpsClock();
+		sf::Clock& m_DtClock();
+		SharedData& m_SharedData();
+		float m_GetTimeScale() const;
+		void m_SetTimeScale(float scale);
+		sf::Text& m_Text();
+		sf::Font& m_Font();
+		sf::Event& m_Event();
+		bool m_Running() const;
+		void m_SetRunning(bool b);
+		bool m_HasFocus() const;
+		void m_SetFocused(bool b);
+		ScreenId m_ReturnValue() const;
+		void m_SetReturnValue(ScreenId value);
 
 
 		//override this in derived classes with calls to object logic updates.
@@ -115,6 +120,20 @@ namespace Game
 		void m_StopLoadingWindow();
 		std::atomic<bool> m_threadRunning;
 		sf::Thread m_loadingThread;
+
+
+		//-----------------------------//
+		sf::RenderWindow& m_renderWindow;
+		sf::Clock m_fpsClock, m_dtClock;
+		//global data struct
+		SharedData& m_sharedData;
+
+		float m_timeScale; //used to speed up and slow down rate of game
+		sf::Text m_text;
+		sf::Font m_font;
+		sf::Event m_event;
+		bool m_running, m_hasFocus;
+		ScreenId m_return;
 
 	};
 };

@@ -29,6 +29,7 @@ source distribution.
 #include <Mesh/GL/glew.h>
 #include <Game/StartScreen.h>
 #include <Game/GameScreen.h>
+#include <Game/TestScreen.h>
 #include <fstream>
 
 int main()
@@ -62,9 +63,9 @@ int main()
 
 	//create game screens and enter main loop
 	std::vector< std::unique_ptr<Game::BaseScreen> > screens;
-	int screen = 0;
+	Game::ScreenId screen = Game::MainMenu;
 
-	screens.push_back(std::unique_ptr<Game::BaseScreen>(new Game::StartScreen(renderWindow, sharedData)));
+	screens.push_back(std::unique_ptr<Game::BaseScreen>(new Game::TestScreen(renderWindow, sharedData)));
 	screens.push_back(std::unique_ptr<Game::BaseScreen>(new Game::GameScreen(renderWindow, sharedData)));
 
 	while(screen >= 0)

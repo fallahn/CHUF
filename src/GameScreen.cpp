@@ -59,22 +59,22 @@ void GameScreen::m_Update(float dt)
 
 void GameScreen::m_Render()
 {
-	m_renderWindow.clear(sf::Color(100u, 149u, 237u));
+	m_RenderWindow().clear(sf::Color(100u, 149u, 237u));
 	//draw game items here
-	m_renderWindow.draw(m_sharedData.console);
+	m_RenderWindow().draw(m_SharedData().console);
 	m_DrawFps();
-	m_renderWindow.display();
+	m_RenderWindow().display();
 
 }
 
 void GameScreen::m_HandleCustomEvent()
 {
-	if (m_sharedData.console.HandleEvent(m_event)) return;
+	if (m_SharedData().console.HandleEvent(m_Event())) return;
 
-	if(m_event.type == sf::Event::KeyPressed
-		&& m_hasFocus)
+	if(m_Event().type == sf::Event::KeyPressed
+		&& m_HasFocus())
 	{
-		switch(m_event.key.code)
+		switch(m_Event().key.code)
 		{
 
 		default: break;
@@ -84,8 +84,8 @@ void GameScreen::m_HandleCustomEvent()
 
 void GameScreen::m_HandleRealtimeEvent()
 {
-	if (m_sharedData.console.Visible()) return;
-	m_sharedData.console.HandleRealtimeEvent();
+	if (m_SharedData().console.Visible()) return;
+	m_SharedData().console.HandleRealtimeEvent();
 }
 
 void GameScreen::m_OnStart()
@@ -100,13 +100,13 @@ void GameScreen::m_OnFinish()
 
 void GameScreen::m_LoadConsoleCommands()
 {
-	Console& console = m_sharedData.console;
+	Console& console = m_SharedData().console;
 	Console::CommandData cd;
 	std::string commandName = "quit";
 	cd.action = [this](Console::CommandList l)->std::string
 	{
-		m_return = QUIT;
-		m_running = false;
+		m_SetReturnValue(ScreenId::Quit);
+		m_SetRunning(false);
 		return "Quitting...";
 	};
 	cd.help = "quit the game";
@@ -117,8 +117,8 @@ void GameScreen::m_LoadConsoleCommands()
 	commandName = "main_menu";
 	cd.action = [this](Console::CommandList l)->std::string
 	{
-		m_return = MAIN_MENU;
-		m_running = false;
+		m_SetReturnValue(ScreenId::MainMenu);
+		m_SetRunning(false);
 		return "";
 	};
 	cd.help = "return to main menu";
@@ -127,6 +127,6 @@ void GameScreen::m_LoadConsoleCommands()
 	m_commandList.push_back(commandName);
 
 
-	m_sharedData.console.Exec("bind escape main_menu");
-	m_sharedData.console.Exec("bind backspace quit");
+	m_SharedData().console.Exec("bind escape main_menu");
+	m_SharedData().console.Exec("bind backspace quit");
 }
