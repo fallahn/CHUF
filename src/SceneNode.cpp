@@ -42,7 +42,11 @@ SceneNode::SceneNode(AudioManager& am)
 	: m_parent		(nullptr),
 	m_category		(NodeCommand::Scene),
 	m_drawPhysEnt	(false),
-	m_audioManager	(am)
+	m_audioManager	(am),
+	m_inputBits		(0u),
+	m_xAxisInput	(0.f),
+	m_yAxisInput	(0.f),
+	m_zAxisInput	(0.f)
 {
 }
 
@@ -267,6 +271,47 @@ void SceneNode::DrawPhysEnt(bool b)
 void SceneNode::PlaySound(Audio::Effect effect)
 {
 	m_audioManager.PlayEffect(effect, GetWorldPosition());
+}
+
+void SceneNode::SetInput(SceneNode::InputBit bit, bool b)
+{
+	(b) ? m_inputBits |= bit : m_inputBits &= ~bit;
+}
+
+void SceneNode::SetInput(SceneNode::InputAxis axis, float value)
+{
+	assert(value > -100.f && value < 100.f);
+	switch (axis)
+	{
+	case X:
+		m_xAxisInput = value;
+		break;
+	case Y:
+		m_yAxisInput = value;
+		break;
+	case Z:
+		m_zAxisInput = value;
+		break;
+	default: break;
+	}
+}
+
+sf::Uint16 SceneNode::GetInputBits() const
+{
+	return m_inputBits;
+}
+
+sf::Vector3f SceneNode::GetInputAxis() const
+{
+	return sf::Vector3f(m_xAxisInput, m_yAxisInput, m_zAxisInput);
+}
+
+void SceneNode::ResetInput()
+{
+	m_inputBits = 0u;
+	m_xAxisInput = 0.f;
+	m_yAxisInput = 0.f;
+	m_zAxisInput = 0.f;
 }
 
 ///private

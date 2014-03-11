@@ -55,13 +55,40 @@ source distribution.
 
 namespace Game
 {
-	class SceneNode :
-		public sf::Transformable,
+	class SceneNode 
+		: public sf::Transformable,
 		public sf::Drawable,
 		private sf::NonCopyable,
 		public Deletable
 	{
 	public:
+		enum InputBit
+		{
+			Up       = 1 << 0,
+			Down     = 1 << 1,
+			Left     = 1 << 2,
+			Right    = 1 << 3,
+			Button0  = 1 << 4,
+			Button1  = 1 << 5,
+			Button2  = 1 << 6,
+			Button3  = 1 << 7,
+			Button4  = 1 << 8,
+			Button5  = 1 << 9,
+			Button6  = 1 << 10,
+			Button7  = 1 << 11,
+			Button8  = 1 << 12,
+			Button9  = 1 << 13,
+			Button10 = 1 << 14,
+			Button11 = 1 << 15
+		};
+
+		enum InputAxis
+		{
+			X,
+			Y,
+			Z
+		};
+
 		typedef std::unique_ptr<SceneNode> NodePtr;
 
 		explicit SceneNode(AudioManager& am);
@@ -109,6 +136,12 @@ namespace Game
 		void DrawPhysEnt(bool b);
 		//plays a sound at the node's current position
 		void PlaySound(Audio::Effect effect);
+		//set / get input
+		void SetInput(InputBit bit, bool b);
+		void SetInput(InputAxis axis, float value);
+		sf::Uint16 GetInputBits() const;
+		sf::Vector3f GetInputAxis() const;
+		void ResetInput();
 	private:
 		//pointers to all children attached this node
 		std::vector<NodePtr> m_children;
@@ -124,6 +157,12 @@ namespace Game
 		//these will always be added to any node movement
 		sf::Vector3f m_3dRotation;
 		sf::Vector3f m_3dPosition;
+
+		//input mask members - enables input from controls, network or AI
+		sf::Uint16 m_inputBits;
+		float m_xAxisInput;
+		float m_yAxisInput;
+		float m_zAxisInput;
 
 		AudioManager& m_audioManager;
 

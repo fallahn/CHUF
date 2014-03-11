@@ -86,13 +86,13 @@ namespace ml
 			: parent(-1)
 		{}
 
-		explicit SkeletonJoint(const BaseFrame& frame)
+		SkeletonJoint(const BaseFrame& frame)
 			: parent	(-1),
 			position	(frame.position),
 			rotation	(frame.rotation)
 		{}
 
-		explicit SkeletonJoint(const MeshBuffer::Joint& joint)
+		SkeletonJoint(const MeshBuffer::Joint& joint)
 			: parent	(joint.parentId),
 			position	(joint.position.x, joint.position.y, joint.position.z),
 			rotation	(joint.rotation)
