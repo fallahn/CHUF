@@ -39,7 +39,7 @@ namespace Game
 	class ContactListener : public b2ContactListener
 	{
 	public:
-		ContactListener(CommandQueue& cmdQ);
+		explicit ContactListener(CommandQueue& cmdQ);
 
 		void BeginContact(b2Contact* contact);
 		void EndContact(b2Contact* contact);

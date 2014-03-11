@@ -26,7 +26,7 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-///definitions for random fucntions///
+///definitions for random functions///
 #include <Helpers.h>
 #include <random>
 #include <ctime>

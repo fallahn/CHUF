@@ -44,7 +44,7 @@ namespace ml
 		typedef std::shared_ptr<StaticMeshNode> Ptr;
 
 		StaticMeshNode();
-		StaticMeshNode(BufferCollection& meshBuffers);
+		explicit StaticMeshNode(BufferCollection& meshBuffers);
 		virtual ~StaticMeshNode(){};
 
 		virtual void SetBufferCollection(BufferCollection& meshBuffers);

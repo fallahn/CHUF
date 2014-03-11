@@ -56,7 +56,7 @@ namespace Game
 			Dead
 		};
 
-		BaseParticle(QuadVerts& verts);
+		explicit BaseParticle(QuadVerts& verts);
 		virtual ~BaseParticle();
 
 		virtual void Update(float dt) = 0;

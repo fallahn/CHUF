@@ -38,7 +38,7 @@ namespace Game
 	class SmokeParticle final : public BaseParticle
 	{
 	public:
-		SmokeParticle(QuadVerts& verts);
+		explicit SmokeParticle(QuadVerts& verts);
 
 		void Update(float dt);
 		static std::shared_ptr<BaseParticle> Create(QuadVerts& verts)

@@ -42,7 +42,7 @@ namespace UI
 	public:
 		typedef std::shared_ptr<UIContainer> Ptr;
 
-		UIContainer(const sf::RenderWindow& rw);
+		explicit UIContainer(const sf::RenderWindow& rw);
 
 		virtual void Update(float dt);
 		void AddComponent(UIComponent::Ptr component);

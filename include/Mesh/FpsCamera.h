@@ -56,7 +56,7 @@ namespace ml
 		};
 
 		//represents a first person camera by adding keyboard input to camera class
-        FpsCamera(sf::RenderWindow& renderWindow);
+        explicit FpsCamera(sf::RenderWindow& renderWindow);
 
         void    StrafeLeft();
         void    StrafeRight();

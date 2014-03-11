@@ -70,7 +70,7 @@ namespace ml
 		};
 
 		MorphMeshNode();
-		MorphMeshNode(BufferCollection& meshBuffers);
+		explicit MorphMeshNode(BufferCollection& meshBuffers);
 
 		void SetBufferCollection(BufferCollection& meshBuffers);
 

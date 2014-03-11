@@ -46,7 +46,7 @@ namespace ml
 		typedef std::shared_ptr<SkeletalMeshNode> Ptr;
 
 		SkeletalMeshNode();
-		SkeletalMeshNode(BufferCollection& bc);
+		explicit SkeletalMeshNode(BufferCollection& bc);
 
 		void SetBufferCollection(BufferCollection& bc);
 		void Play(bool loop = true);
