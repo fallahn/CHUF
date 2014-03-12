@@ -142,6 +142,8 @@ namespace Game
 		sf::Uint16 GetInputBits() const;
 		sf::Vector3f GetInputAxis() const;
 		void ResetInput();
+
+		sf::Uint32 UniqueId() const;
 	private:
 		//pointers to all children attached this node
 		std::vector<NodePtr> m_children;
@@ -165,6 +167,7 @@ namespace Game
 		float m_zAxisInput;
 
 		AudioManager& m_audioManager;
+		sf::Uint32 m_uniqueId;
 
 		bool m_drawPhysEnt;
 		//override for drawable

@@ -34,8 +34,19 @@ source distribution.
 #include <Mesh/MeshScene.h>
 
 #include <cassert>
+#include <iostream>
 
 using namespace Game;
+
+namespace
+{
+	//unique ID generator for nodes
+	sf::Uint32 GetId()
+	{
+		static sf::Uint32 id = 0u;
+		return id++;
+	}
+}
 
 ///ctor
 SceneNode::SceneNode(AudioManager& am)
@@ -46,8 +57,10 @@ SceneNode::SceneNode(AudioManager& am)
 	m_inputBits		(0u),
 	m_xAxisInput	(0.f),
 	m_yAxisInput	(0.f),
-	m_zAxisInput	(0.f)
+	m_zAxisInput	(0.f),
+	m_uniqueId		(GetId())
 {
+	
 }
 
 //dtor
@@ -312,6 +325,11 @@ void SceneNode::ResetInput()
 	m_xAxisInput = 0.f;
 	m_yAxisInput = 0.f;
 	m_zAxisInput = 0.f;
+}
+
+sf::Uint32 SceneNode::UniqueId() const
+{
+	return m_uniqueId;
 }
 
 ///private
