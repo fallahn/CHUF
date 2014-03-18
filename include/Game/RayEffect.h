@@ -26,59 +26,47 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-///there are two types of shader program available - the default sfml shader and a
-///specialisation for the 3D MeshLib. Shader resources are seperated out from other resources as
-///they are loaded from memory streams rather than disk.
+//godray post process effect//
 
-#ifndef SHADER_MANAGER_H_
-#define SHADER_MANAGER_H_
+#ifndef GODRAY_H_
+#define GODRAY_H_
 
-#include <SFML/System/NonCopyable.hpp>
-#include <SFML/Graphics/Shader.hpp>
-#include <Mesh/ShaderProgram.h>
-
-#include <memory>
-#include <map>
-
-namespace ml
-{
-	enum class MeshShader
-	{
-		Normal,
-		Phong,
-		Depth,
-		Shadow
-	};
-}
+#include <Game/PostEffect.h>
 
 namespace Game
 {
-	typedef std::unique_ptr<sf::Shader> sfPtr;
-	typedef std::unique_ptr<ml::ShaderProgram> mlPtr;
-
-	enum class SfmlShader
-	{
-		Convolution,
-		NormalMap,
-		Ghost,
-		ShadowBlend,
-		BloomExtract,
-		BloomBlend,
-		Downsample,
-		GaussianBlur,
-		GodRay,
-		BlendAdd
-	};
-
-	class ShaderResource : private sf::NonCopyable
+	class RayEffect : public PostEffect
 	{
 	public:
-		sf::Shader& Get(SfmlShader shaderType);
-		ml::ShaderProgram& Get(ml::MeshShader shaderType);
+		RayEffect(ShaderResource& sr);
+
+		void Apply(const sf::RenderTexture& input, sf::RenderTarget& output) override;
+		//normalised coordinates
+		void SetSourcePosition(sf::Vector2f screenCoords);
+		void SetThreshold(float value);
+		void SetIntensity(float value);
+		void SetDecay(float value);
+		void SetDensity(float value);
+		void SetWeight(float value);
+
 	private:
-		std::map<SfmlShader, sfPtr> m_sfmlShaders;
-		std::map<ml::MeshShader, mlPtr> m_meshShaders;
+		sf::RenderTexture m_extractTexture;
+		RenderTextures m_blurBuffers;
+		sf::Vector2f m_rayCentre;
+		float m_threshold;
+
+		float m_intensity;
+		float m_decay;
+		float m_density;
+		float m_weight;
+
+		void m_PrepareTextures(sf::Vector2u size);
+		void m_Extract(const sf::RenderTexture& input, sf::RenderTexture& output);
+		void m_DownSample(const sf::RenderTexture& input, sf::RenderTexture& output);
+		void m_RayBlur(RenderTextures& buffers);
+		void m_DoBlur(const sf::RenderTexture& input, sf::RenderTexture& output);
+		void m_Blend(const sf::RenderTexture& base, const sf::RenderTexture& additive, sf::RenderTarget& output);
 	};
 }
 
-#endif //SHADER_MANAGER_H_
+#endif //GODRAY_H_

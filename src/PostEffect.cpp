@@ -26,59 +26,44 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-///there are two types of shader program available - the default sfml shader and a
-///specialisation for the 3D MeshLib. Shader resources are seperated out from other resources as
-///they are loaded from memory streams rather than disk.
+#include <SFML/Graphics/VertexArray.hpp>
 
-#ifndef SHADER_MANAGER_H_
-#define SHADER_MANAGER_H_
+#include <Game/PostEffect.h>
 
-#include <SFML/System/NonCopyable.hpp>
-#include <SFML/Graphics/Shader.hpp>
-#include <Mesh/ShaderProgram.h>
+using namespace Game;
 
-#include <memory>
-#include <map>
+//ctor
+PostEffect::PostEffect(ShaderResource& sr)
+: m_shaderResource(sr){}
 
-namespace ml
+//dtor
+PostEffect::~PostEffect(){}
+
+//public
+bool PostEffect::Supported()
 {
-	enum class MeshShader
-	{
-		Normal,
-		Phong,
-		Depth,
-		Shadow
-	};
+	return sf::Shader::isAvailable();
 }
 
-namespace Game
+//protected
+void PostEffect::m_ApplyShader(const sf::Shader& shader, sf::RenderTarget& rt)
 {
-	typedef std::unique_ptr<sf::Shader> sfPtr;
-	typedef std::unique_ptr<ml::ShaderProgram> mlPtr;
+	sf::Vector2f outputSize = static_cast<sf::Vector2f>(rt.getSize());
 
-	enum class SfmlShader
-	{
-		Convolution,
-		NormalMap,
-		Ghost,
-		ShadowBlend,
-		BloomExtract,
-		BloomBlend,
-		Downsample,
-		GaussianBlur,
-		GodRay,
-		BlendAdd
-	};
+	sf::VertexArray verts(sf::TrianglesStrip, 4u);
+	verts[0] = sf::Vertex(sf::Vector2f(), sf::Vector2f(0.f, 1.f));
+	verts[1] = sf::Vertex(sf::Vector2f(outputSize.x, 0.f), sf::Vector2f(1.f, 1.f));
+	verts[2] = sf::Vertex(sf::Vector2f(0.f, outputSize.y), sf::Vector2f());
+	verts[3] = sf::Vertex(outputSize, sf::Vector2f(1.f, 0.f));
 
-	class ShaderResource : private sf::NonCopyable
-	{
-	public:
-		sf::Shader& Get(SfmlShader shaderType);
-		ml::ShaderProgram& Get(ml::MeshShader shaderType);
-	private:
-		std::map<SfmlShader, sfPtr> m_sfmlShaders;
-		std::map<ml::MeshShader, mlPtr> m_meshShaders;
-	};
+	sf::RenderStates states;
+	states.shader = &shader;
+	states.blendMode = sf::BlendNone;
+
+	rt.draw(verts, states);
 }
 
-#endif //SHADER_MANAGER_H_
+ShaderResource& PostEffect::m_ShaderResource()
+{
+	return m_shaderResource;
+}

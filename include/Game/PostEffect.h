@@ -26,59 +26,36 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-///there are two types of shader program available - the default sfml shader and a
-///specialisation for the 3D MeshLib. Shader resources are seperated out from other resources as
-///they are loaded from memory streams rather than disk.
+//abstract base class for full scene shader based post effects
 
-#ifndef SHADER_MANAGER_H_
-#define SHADER_MANAGER_H_
+#ifndef POST_EFFECTS_H_
+#define POST_EFFECTS_H_
 
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/System/NonCopyable.hpp>
-#include <SFML/Graphics/Shader.hpp>
-#include <Mesh/ShaderProgram.h>
 
-#include <memory>
-#include <map>
+#include <Game/ShaderManager.h>
 
-namespace ml
-{
-	enum class MeshShader
-	{
-		Normal,
-		Phong,
-		Depth,
-		Shadow
-	};
-}
+#include <array>
 
 namespace Game
 {
-	typedef std::unique_ptr<sf::Shader> sfPtr;
-	typedef std::unique_ptr<ml::ShaderProgram> mlPtr;
-
-	enum class SfmlShader
-	{
-		Convolution,
-		NormalMap,
-		Ghost,
-		ShadowBlend,
-		BloomExtract,
-		BloomBlend,
-		Downsample,
-		GaussianBlur,
-		GodRay,
-		BlendAdd
-	};
-
-	class ShaderResource : private sf::NonCopyable
+	class PostEffect : private sf::NonCopyable
 	{
 	public:
-		sf::Shader& Get(SfmlShader shaderType);
-		ml::ShaderProgram& Get(ml::MeshShader shaderType);
+		explicit PostEffect(ShaderResource& sr);
+		virtual ~PostEffect();
+		virtual void Apply(const sf::RenderTexture& input, sf::RenderTarget& target) = 0;
+		static bool Supported();
+
+	protected:
+		typedef std::array<sf::RenderTexture, 2u> RenderTextures;
+		static void m_ApplyShader(const sf::Shader& shader, sf::RenderTarget& output);
+		ShaderResource& m_ShaderResource();
 	private:
-		std::map<SfmlShader, sfPtr> m_sfmlShaders;
-		std::map<ml::MeshShader, mlPtr> m_meshShaders;
+		ShaderResource& m_shaderResource;
 	};
 }
 
-#endif //SHADER_MANAGER_H_
+#endif //POST_EFFECTS_H_

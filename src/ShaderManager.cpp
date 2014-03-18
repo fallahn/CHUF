@@ -28,6 +28,20 @@ source distribution.
 
 #include <Game/ShaderManager.h>
 
+//sfml shaders
+#include <Game/Shaders/Convolution.h>
+#include <Game/Shaders/Normal.h>
+#include <Game/Shaders/Bloom.h>
+#include <Game/Shaders/DownSample.h>
+#include <Game/Shaders/GaussianBlur.h>
+#include <Game/Shaders/DynamicShadow.h>
+
+//mesh shaders
+#include <Mesh/Shaders/Normal.h>
+#include <Mesh/Shaders/Phong.h>
+#include <Mesh/Shaders/DepthMap.h>
+#include <Mesh/Shaders/Shadow.h>
+
 using namespace Game;
 
 sf::Shader& ShaderResource::Get(SfmlShader shaderType)
@@ -36,7 +50,7 @@ sf::Shader& ShaderResource::Get(SfmlShader shaderType)
 	if (s != m_sfmlShaders.end())
 		return *s->second;
 
-	sfPtr shaderPtr(new sf::Shader);// = std::make_unique<sf::Shader>(); //not supported by gcc
+	sfPtr shaderPtr = std::make_unique<sf::Shader>(); //not supported by gcc
 	switch (shaderType)
 	{
 	case SfmlShader::Convolution:
@@ -47,6 +61,25 @@ sf::Shader& ShaderResource::Get(SfmlShader shaderType)
 		break;
 	case SfmlShader::ShadowBlend:
 		shaderPtr->loadFromMemory(shadowBlend, sf::Shader::Fragment);
+		break;
+	case SfmlShader::BloomExtract:
+		shaderPtr->loadFromMemory(bloomExtract, sf::Shader::Fragment);
+		break;
+	case SfmlShader::BloomBlend:
+		shaderPtr->loadFromMemory(bloomBlend, sf::Shader::Fragment);
+		break;
+	case SfmlShader::Downsample:
+		shaderPtr->loadFromMemory(downsample, sf::Shader::Fragment);
+		break;
+	case SfmlShader::GaussianBlur:
+		shaderPtr->loadFromMemory(gaussian, sf::Shader::Fragment);
+		break;
+	case SfmlShader::GodRay:
+		shaderPtr->loadFromMemory(softShadow, sf::Shader::Fragment);
+		//TODO enable switching of desaturation in shader
+		break;
+	case SfmlShader::BlendAdd:
+		shaderPtr->loadFromMemory(blendAdd, sf::Shader::Fragment);
 		break;
 	default: break;
 	}
@@ -60,7 +93,7 @@ ml::ShaderProgram& ShaderResource::Get(ml::MeshShader shaderType)
 	if (s != m_meshShaders.end())
 		return *s->second;
 
-	mlPtr shaderPtr(new ml::ShaderProgram);// = std::make_unique<ml::ShaderProgram>(); //not support by gcc
+	mlPtr shaderPtr = std::make_unique<ml::ShaderProgram>(); //not support by gcc
 	switch (shaderType)
 	{
 	case ml::MeshShader::Normal:
