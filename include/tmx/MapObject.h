@@ -167,12 +167,12 @@ private:
 
 		std::vector<Segment> m_polySegs; //segments which make up shape, if any
 		std::shared_ptr<TileQuad> m_tileQuad;
-		
+
 		float m_furthestPoint; //furthest distance from centre of object to vertex - used for intersection testing
 		//AABB created from polygonal shapes, used for adding MapObjects to a QuadTreeNode.
 		//Note that the position of this box many not necessarily match the MapObject's position, as polygonal
 		//points may have negative values relative to the object's world position.
-		sf::FloatRect m_AABB; 
+		sf::FloatRect m_AABB;
 
 		//returns centre of poly shape if available, else centre of
 		//bounding rectangle in world space
