@@ -51,16 +51,16 @@ namespace UI
 		void SetText(const std::string& text);
 		void SetToggle(bool b);
 
-		virtual bool Selectable() const;
-		virtual void Select();
-		virtual void Deselect();
+		virtual bool Selectable() const override;
+		virtual void Select() override;
+		virtual void Deselect() override;
 
-		virtual void Activate();
-		virtual void Deactivate();
+		virtual void Activate() override;
+		virtual void Deactivate() override;
 
-		virtual void HandleEvent(const sf::Event& e);
+		virtual void HandleEvent(const sf::Event& e) override;
 
-		virtual bool Contains(const sf::Vector2f& point) const;
+		virtual bool Contains(const sf::Vector2f& point) const override;
 
 		sf::Vector2f GetSize() const;
 	private:

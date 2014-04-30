@@ -27,8 +27,8 @@ source distribution.
 *********************************************************************/
 
 ///base class for all UI components (buttons etc)///
-#ifndef COMPONENT_H_
-#define COMPONENT_H_
+#ifndef UI_COMPONENT_H_
+#define UI_COMPONENT_H_
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/Drawable.hpp>

@@ -44,11 +44,11 @@ namespace UI
 
 		explicit UIContainer(const sf::RenderWindow& rw);
 
-		virtual void Update(float dt);
+		virtual void Update(float dt) override;
 		void AddComponent(UIComponent::Ptr component);
 
-		virtual bool Selectable() const;
-		virtual void HandleEvent(const sf::Event& e);
+		virtual bool Selectable() const override;
+		virtual void HandleEvent(const sf::Event& e) override;
 
 		void SetVisible(bool b = true);
 

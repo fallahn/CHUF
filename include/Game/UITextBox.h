@@ -47,18 +47,18 @@ namespace UI
 		typedef std::shared_ptr<UITextBox> Ptr;
 		UITextBox(const sf::Font& font, const sf::Color& background = sf::Color::Black, const sf::Color& border = sf::Color::White);
 
-		virtual void Update(float dt);
+		virtual void Update(float dt) override;
 
-		virtual bool Selectable() const;
-		virtual void Select();
-		virtual void Deselect();
+		virtual bool Selectable() const override;
+		virtual void Select() override;
+		virtual void Deselect() override;
 
-		virtual void Activate();
-		virtual void Deactivate();
+		virtual void Activate() override;
+		virtual void Deactivate() override;
 
-		virtual void HandleEvent(const sf::Event& e);
+		virtual void HandleEvent(const sf::Event& e) override;
 
-		virtual bool Contains(const sf::Vector2f& point) const;
+		virtual bool Contains(const sf::Vector2f& point) const override;
 
 		const std::string& GetText() const;
 		void SetTexture(const sf::Texture& texture);

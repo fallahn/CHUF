@@ -42,10 +42,10 @@ namespace UI
 
 		UILabel(const std::string& text, const sf::Font& font);
 
-		bool Selectable() const;
+		bool Selectable() const override;
 		void SetText(const std::string& text);
 
-		void HandleEvent(const sf::Event& e);
+		void HandleEvent(const sf::Event& e) override;
 
 
 	private:

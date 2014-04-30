@@ -45,7 +45,7 @@ namespace UI
 
 		UIScrollSprite(const sf::Texture& front, const sf::Texture& back);
 
-		void Update(float dt); //updates the animations
+		void Update(float dt) override; //updates the animations
 
 		void AddItem(const sf::Texture& texture, const std::string& title, const sf::Font& font);
 		void ClearItems();
@@ -53,15 +53,15 @@ namespace UI
 		sf::Uint16 SelectedIndex() const;
 
 		//implements base functions
-		bool Selectable() const;
-		void Select();
-		void Deselect();
+		bool Selectable() const override;
+		void Select() override;
+		void Deselect() override;
 
-		void Activate();
+		void Activate() override;
 
-		void HandleEvent(const sf::Event& e);
+		void HandleEvent(const sf::Event& e) override;
 
-		bool Contains(const sf::Vector2f& point) const;
+		bool Contains(const sf::Vector2f& point) const override;
 
 		void SetIndexEnabled(sf::Uint16 index, bool state);
 		void SelectIndex(sf::Uint16 index);

@@ -53,18 +53,18 @@ namespace UI
 
 		UISlider(const sf::Font& font, const sf::Texture& t, float length = 250.f, float maxValue = 100.f);
 
-		bool Selectable() const;
-		void Select();
-		void Deselect();
+		bool Selectable() const override;
+		void Select() override;
+		void Deselect() override;
 
-		void Activate();
-		void Deactivate();
+		void Activate() override;
+		void Deactivate() override;
 
-		void HandleEvent(const sf::Event& e);
+		void HandleEvent(const sf::Event& e) override;
 
-		bool Contains(const sf::Vector2f& point) const;
+		bool Contains(const sf::Vector2f& point) const override;
 
-		void Update(float dt);
+		void Update(float dt) override;
 
 		//-------------------//
 
