@@ -90,13 +90,23 @@ namespace Game
 	class TextureResource final : public BaseResource<sf::Texture>
 	{
 	private:
-		std::unique_ptr<sf::Texture> m_errorHandle()
+		std::unique_ptr<sf::Texture> m_errorHandle() override
 		{
 			std::unique_ptr<sf::Texture> t(new sf::Texture());
 			sf::Image i;
 			i.create(20u, 20u, sf::Color::Magenta);
 			t->loadFromImage(i);
 			return std::move(t);
+		}
+	};
+
+	class ImageResource final : public BaseResource<sf::Image>
+	{
+		std::unique_ptr<sf::Image> m_errorHandle() override
+		{
+			std::unique_ptr<sf::Image> i(new sf::Image);
+			i->create(20u, 20u, sf::Color::Green);
+			return std::move(i);
 		}
 	};
 
@@ -115,7 +125,7 @@ namespace Game
 		}
 	private:
 		std::array<sf::Int16, 100> m_byteArray;
-		std::unique_ptr<sf::SoundBuffer> m_errorHandle()
+		std::unique_ptr<sf::SoundBuffer> m_errorHandle() override
 		{
 			//load the byte array into a new buffer
 			std::unique_ptr<sf::SoundBuffer> b(new sf::SoundBuffer);
@@ -130,10 +140,8 @@ namespace Game
 		FontResource();
 	private:
 		sf::Font m_font;
-		std::unique_ptr<sf::Font> m_errorHandle();
+		std::unique_ptr<sf::Font> m_errorHandle() override;
 	};
-
-	//TODO image class
 };
 
 

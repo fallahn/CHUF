@@ -40,6 +40,7 @@ namespace Game
 {
 	struct SharedData
 	{
+		ImageResource images;
 		TextureResource textures;
 		FontResource fonts;
 		AudioManager audioManager;
