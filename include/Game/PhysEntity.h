@@ -65,11 +65,11 @@ namespace Game
 		//use this to delete the entity from the phys simulation
 		virtual void Delete() = 0;
 		//implement component class
-		virtual void UpdateParent(float dt);
-		Component::Type GetType() const;
+		virtual void UpdateParent(float dt) override;
+		Component::Type GetType() const override;
 	private:
 		//this can be used to draw shapes for debugging for example
-		virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const{};
+		virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
 	};
 }
 

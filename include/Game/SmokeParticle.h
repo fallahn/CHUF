@@ -40,7 +40,7 @@ namespace Game
 	public:
 		explicit SmokeParticle(QuadVerts& verts);
 
-		void Update(float dt);
+		void Update(float dt) override;
 		static std::shared_ptr<BaseParticle> Create(QuadVerts& verts)
 		{return std::shared_ptr<BaseParticle>(new SmokeParticle(verts));};
 

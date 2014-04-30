@@ -56,16 +56,16 @@ namespace Game
 		CommandQueue m_commandQueue;
 		SceneNode m_rootNode;
 
-		void m_Update(float dt);
-		void m_Render();
-		void m_HandleCustomEvent();
-		void m_HandleRealtimeEvent();
+		void m_Update(float dt) override;
+		void m_Render() override;
+		void m_HandleCustomEvent() override;
+		void m_HandleRealtimeEvent() override;
 
-		void m_OnStart();
-		void m_OnFinish();
-		void m_OnContextCreate(const sf::VideoMode& v);
+		void m_OnStart() override;
+		void m_OnFinish() override;
+		void m_OnContextCreate(const sf::VideoMode& v) override;
 
-		void m_LoadConsoleCommands();
+		void m_LoadConsoleCommands() override;
 
 		//----options menu----//
 		UI::UIContainer m_optionsContainer;

@@ -57,12 +57,12 @@ namespace Game
 	enum class BehaviorType
 	{
 		Coin,
-		Mole
+		ParseInput,
+		Rotate
 		//dwarf
 		//etc
 	};
 
-	class BehaviorCoin;
 	class BehaviorFactory final : private sf::NonCopyable
 	{
 	public:

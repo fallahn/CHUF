@@ -65,9 +65,9 @@ namespace Game
 		//returns the current view
 		const sf::View& GetView() const;
 		//implement component
-		void UpdateParent(float dt);
-		Component::Type GetType() const;
-		void Delete();
+		void UpdateParent(float dt) override;
+		Component::Type GetType() const override;
+		void Delete() override;
 
 	private:
 

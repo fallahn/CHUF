@@ -123,9 +123,9 @@ namespace Game
 		void SetBlendMode(sf::BlendMode mode);
 		void SetOrigin(const sf::Vector2f& origin);
 		//implement component
-		void UpdateParent(float dt);
-		Component::Type GetType() const;
-		void Delete();
+		void UpdateParent(float dt) override;
+		Component::Type GetType() const override;
+		void Delete() override;
 
 	private:
 		sf::VertexArray m_vertices;

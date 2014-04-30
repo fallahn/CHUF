@@ -50,9 +50,9 @@ namespace Game
 
 		float GetValue() const;
 
-		void UpdateParent(float dt);
-		Component::Type GetType() const;
-		void Delete();
+		void UpdateParent(float dt) override;
+		Component::Type GetType() const override;
+		void Delete() override;
 
 	private:
 

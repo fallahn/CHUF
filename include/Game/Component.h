@@ -56,7 +56,6 @@ namespace Game
 		void SetParent(SceneNode& node);
 		virtual void UpdateParent(float dt) = 0;
 
-		//void SetComponentList(cl);
 		virtual Component::Type GetType() const = 0;
 
 		virtual void Delete() = 0;

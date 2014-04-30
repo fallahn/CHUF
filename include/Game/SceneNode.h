@@ -129,7 +129,7 @@ namespace Game
 		void Rotate3D(float x, float y, float z);
 		const sf::Vector3f& GetRotation3D() const;
 		//node's delete implementation
-		void Delete();
+		void Delete() override;
 		//attach a component
 		void AttachComponent(Component::Ptr& component);
 		//make phys drawing visible
