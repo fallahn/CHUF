@@ -61,6 +61,7 @@ void GameScreen::m_Render()
 {
 	m_RenderWindow().clear(sf::Color(100u, 149u, 237u));
 	//draw game items here
+	m_RenderWindow().draw(m_rootNode);
 	m_RenderWindow().draw(m_SharedData().console);
 	m_DrawFps();
 	m_RenderWindow().display();

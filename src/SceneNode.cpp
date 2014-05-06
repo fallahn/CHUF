@@ -33,6 +33,8 @@ source distribution.
 #include <Box2D/Dynamics/b2Fixture.h>
 #include <Mesh/MeshScene.h>
 
+#include <Helpers.h>
+
 #include <cassert>
 #include <iostream>
 
@@ -72,7 +74,7 @@ SceneNode::~SceneNode()
 }
 
 ///public
-void SceneNode::AddChild(NodePtr& child)
+void SceneNode::AddChild(Ptr& child)
 {
 	child->m_parent = this;
 	//set world position relative to parent
@@ -80,16 +82,16 @@ void SceneNode::AddChild(NodePtr& child)
 	m_children.push_back(std::move(child));
 }
 
-SceneNode::NodePtr SceneNode::RemoveChild(const SceneNode& child)
+SceneNode::Ptr SceneNode::RemoveChild(const SceneNode& child)
 {
 	auto result = std::find_if(m_children.begin(),
 								m_children.end(),
-								[&] (NodePtr& p)->bool {return p.get() == &child;});
+								[&] (Ptr& p)->bool {return p.get() == &child;});
 
 	//make sure we actually found something
 	assert(result != m_children.end());
 
-	NodePtr retVal = std::move(*result); //save pointer to any child we may have found so we can return it
+	Ptr retVal = std::move(*result); //save pointer to any child we may have found so we can return it
 	retVal->m_parent = nullptr;
 	m_children.erase(result);
 	return retVal;
@@ -107,7 +109,7 @@ void SceneNode::Update(float dt)
 	m_children.erase(std::remove_if(
 		m_children.begin(),
 		m_children.end(),
-		[](const NodePtr& p)->bool
+		[](const Ptr& p)->bool
 	{
 		return p->Deleted();
 	}), m_children.end());
@@ -152,6 +154,7 @@ void SceneNode::OnCommand(const NodeCommand& command, float dt)
 void SceneNode::SetSprite(const sf::Sprite& sprite)
 {
 	m_sprite = sprite;
+	Helpers::Position::CentreOrigin(m_sprite);
 }
 
 sf::Sprite& SceneNode::GetSprite()
@@ -399,5 +402,4 @@ void SceneNode::updateSelf(float dt)
 	//update node via remaining components
 	for (auto& p : m_components)
 		p->UpdateParent(dt);
-
 }

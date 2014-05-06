@@ -49,14 +49,14 @@ https://github.com/LaurentGomila/SFML/wiki/Tutorial%3A-Manage-different-Screens 
 #include <atomic>
 
 namespace Game
-{
+{	
 	enum ScreenId
 	{
 		Quit = -1,
 		MainMenu = 0,
 		Game = 1
 	};
-
+	
 	class BaseScreen : private sf::NonCopyable
 	{
 	public:
@@ -97,7 +97,7 @@ namespace Game
 		virtual void m_HandleCustomEvent(){};
 		//overide this for a screen's real time input
 		virtual void m_HandleRealtimeEvent(){};
-		//reads current config settigns and updates options menu
+		//reads current config settings and updates options menu
 		void m_RefreshOptions();
 		//called when screen starts running
 		virtual void m_OnStart() = 0;

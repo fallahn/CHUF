@@ -89,14 +89,14 @@ namespace Game
 			Z
 		};
 
-		typedef std::unique_ptr<SceneNode> NodePtr;
+		typedef std::unique_ptr<SceneNode> Ptr;
 
 		explicit SceneNode(AudioManager& am);
 		~SceneNode();
 		//adds a node to the current node's children
-		void AddChild(NodePtr& child);
+		void AddChild(Ptr& child);
 		//removes a node from the children if found, and returns a pointer to the node
-		NodePtr RemoveChild(const SceneNode& node);
+		Ptr RemoveChild(const SceneNode& node);
 		//clears all children from the node
 		void RemoveChildren();
 		//performs any updates on the node and subsequent child nodes
@@ -146,7 +146,7 @@ namespace Game
 		sf::Uint32 UniqueId() const;
 	private:
 		//pointers to all children attached this node
-		std::vector<NodePtr> m_children;
+		std::vector<Ptr> m_children;
 		//pointer to parent
 		SceneNode* m_parent;
 		//represents the nodes category for targetting commands
